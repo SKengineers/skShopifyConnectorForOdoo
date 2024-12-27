@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+    <t t-name="sk_shopify_connector_for_odoo.ShopifyQueueDashboard">
+        <div class="o_purchase_dashboard container-fluid py-4 border-bottom bg-view">
+            <div class="row justify-content-between gap-3 gap-lg-0">
+                <div class="col-12 col-lg-5 col-xl-5 col-xxl-4 flex-grow-1 flex-lg-grow-0 flex-shrink-0">
+                    <div class="grid gap-4">
+                        <div class="g-col-3 g-col-sm-2 d-flex align-items-center py-2 justify-content-end text-end justify-content-lg-start text-lg-start text-break">
+                            All
+                        </div>
+                        <div class="g-col-9 g-col-sm-10 grid gap-1">
+                            <div class="g-col-4 p-0" t-on-click="setSearchContext" title="All Draft RFQs" filter_name="draft">
+                                <a href="#" class="btn btn-primary w-100 h-100 border-0 rounded-0 text-capitalize text-break fw-normal">
+                                    <div class="fs-2">Draft</div>
+                                </a>
+                            </div>
+                            <div class="g-col-4 p-0" t-on-click="setSearchContext" title="All Waiting RFQs" filter_name="failed">
+                                <a href="#" class="btn btn-primary w-100 h-100 border-0 rounded-0 text-capitalize text-break fw-normal">
+                                    <div class="fs-2">Failed</div>
+                                </a>
+                            </div>
+                            <div class="g-col-4 p-0" t-on-click="setSearchContext" title="All Late RFQs" filter_name="complete">
+                                <a href="#" class="btn btn-primary w-100 h-100 border-0 rounded-0 text-capitalize text-break fw-normal">
+                                    <div class="fs-2">Complete</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- TODO: Add another filter for this -->
+                    <div class="grid gap-4">
+                        <div class="g-col-3 g-col-sm-2 d-flex align-items-center py-2 justify-content-end text-end justify-content-lg-start text-lg-start text-break">
+                            Queues
+                        </div>
+                        <div class="g-col-9 g-col-sm-10 grid gap-2">
+                            <div class="g-col-4 p-0" t-on-click="setSearchContext" title="Draft Queues" filter_name="draft">
+                                <a href="#" class="btn btn-light d-flex align-items-center w-100 h-100 p-0 border-0 bg-100 fw-normal">
+                                    <div class="w-100 p-2" t-out="queueData['all_draft']"/>
+                                </a>
+                            </div>
+                            <div class="g-col-4 p-0" t-on-click="setSearchContext" title="Failed Queues" filter_name="fail">
+                                <a href="#" class="btn btn-light d-flex align-items-center w-100 h-100 p-0 border-0 bg-100 fw-normal">
+                                    <div class="w-100 p-2" t-out="queueData['all_fail']"/>
+                                </a>
+                            </div>
+                            <div class="g-col-4 p-0" t-on-click="setSearchContext" title="Complete Queues" filter_name="complete">
+                                <a href="#" class="btn btn-light d-flex align-items-center w-100 h-100 p-0 border-0 bg-100 fw-normal">
+                                    <div class="w-100 p-2" t-out="queueData['all_complete']"/>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

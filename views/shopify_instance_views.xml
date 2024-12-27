@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <record id="shopify_instance_tree_view" model="ir.ui.view">
+        <field name="name">shopify.instance.tree.view</field>
+        <field name="model">shopify.instance</field>
+        <field name="arch" type="xml">
+            <tree string="Instance" create="false">
+                <field name="name"/>
+                <field name="api_version"/>
+                <field name="is_authenticate"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="shopify_instance_form_view" model="ir.ui.view">
+        <field name="name">shopify.instance.form</field>
+        <field name="model">shopify.instance</field>
+        <field name="arch" type="xml">
+            <form string="Configure Instance" create="false">
+                <sheet>
+
+                    <div class="oe_title" id='title'>
+                        <label for="name" string="Name"/>
+                        <h1 id="name"><field name="name" required="1" placeholder="e.g. Odoo"/></h1>
+                    </div>
+                    <div class="alert alert-danger" role="alert" style="height: 40px; margin-bottom:0px;" invisible="is_authenticate">
+                        <strong>The connection need to Authenticate.</strong>
+                    </div>
+                    <div class="alert alert-success" role="alert" style="height: 40px; margin-bottom:0px;" invisible="not is_authenticate">
+                        <strong>The connection is authenticated.</strong>
+                    </div>
+                    <h2>Shopify Credentials</h2>
+                    <p>This configuration is for connection to Shopify API </p>
+                     <div class="row mt16 o_settings_container" id="tosend_msg">
+                        <setting>
+                            <field name="api_key" password="True" placeholder="e.g. 123456789012345"/>
+                        </setting>
+                        <setting>
+                            <field name="api_version" placeholder="e.g. 2024-07"/>
+                        </setting>
+                        <setting>
+                            <field name="shop_url" placeholder="Insert your custom domain here eg. https://example.com"/>
+                        </setting>
+                        <setting>
+                            <field name="is_authenticate" invisible="1"/>
+                        </setting>
+                        <setting>
+                            <field name="is_import_scheduler"/>
+                        </setting>
+                        <div class="content-group">
+                            <button name="button_test_connection" type="object" string="Test Connection" icon="oi-arrow-right" class="btn-link p-1"/>
+                        </div>
+                     </div>
+                    <notebook>
+                        <page name="webhook" string="Webhooks">
+                            <div class="alert alert-warning" role="alert">
+                                <div style="padding:5px;">
+                                    <h5 style="color:#7d5a29;">
+                                        <b>
+                                            <u>Note:</u>
+                                        </b>
+                                    </h5>
+                                    <b>
+                                        <ol>
+                                            <li>
+                                                Only instances having SSL connection (https://)
+                                                are
+                                                permitted.
+                                            </li>
+                                        </ol>
+                                    </b>
+                                </div>
+                            </div>
+                            <field name="webhook_ids" nolabel="1" mode="tree">
+                                <tree decoration-success="state=='active'">
+                                    <field name="instance_id" required="1"/>
+                                    <field name="webhook_name" required="1"/>
+                                    <field name="webhook_action" required="1"/>
+                                    <field name="state" required="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <record id="shopify_instance_action" model="ir.actions.act_window">
+        <field name="name">Instance</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">shopify.instance</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_empty_folder">
+                Create Shopify Instance.
+            </p>
+            <p>
+                Create a Shopify instance first before you can use the functionality of the connector.
+            </p>
+        </field>
+    </record>
+
+    <record id="shopify_instance_action_form_view" model="ir.actions.act_window">
+        <field name="name">Instance</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">shopify.instance</field>
+        <field name="view_mode">form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_empty_folder">
+                Create Shopify Instance.
+            </p>
+            <p>
+                Create a Shopify instance first before you can use the functionality of the connector.
+            </p>
+        </field>
+    </record>
+</odoo>

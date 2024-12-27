@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="shopify_financial_status_tree_view" model="ir.ui.view">
+        <field name="name">shopify.financial.status.tree.view</field>
+        <field name="model">shopify.financial.status</field>
+        <field name="arch" type="xml">
+            <tree editable="top" sample="1">
+                <field name="shopify_instance_id" required="1" options="{'no_create':True}" domain="[('active','=',True)]"/>
+                <field name="payment_gateway_id" options="{'no_create':True}" required="1" domain="[('shopify_instance_id','=',shopify_instance_id)]"/>
+                <field name="payment_term_id" required="1"/>
+                <field name="auto_workflow_id" required="1"/>
+                <field name="financial_status" required="1"/>
+                <field name="shopify_order_payment_status" required="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="shopify_financial_status_action" model="ir.actions.act_window">
+        <field name="name">Financial Status</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">shopify.financial.status</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+</odoo>

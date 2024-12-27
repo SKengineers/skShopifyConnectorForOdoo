@@ -1,0 +1,7 @@
+<templates>
+    <t t-name="sk_shopify_connector_for_odoo.QueueListView" t-inherit="web.ListRenderer" t-inherit-mode="primary">
+        <xpath expr="//div[hasclass('o_list_renderer')]" position="before">
+            <ShopifyQueueDashboard />
+        </xpath>
+    </t>
+</templates>

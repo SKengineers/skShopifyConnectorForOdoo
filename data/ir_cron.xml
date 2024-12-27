@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="ir_cron_import_order" model="ir.cron">
+        <field name="name">Shopify: Import Order</field>
+        <field name="model_id" ref="sk_shopify_connector_for_odoo.model_shopify_queue"/>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="state">code</field>
+        <field name="code">model._create_queue_records_from_cron('import_order')</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">hours</field>
+        <field name="numbercall">-1</field>
+        <field name="active" eval="False"/>
+    </record>    
+    <!-- For Testing -->
+    <record id="ir_cron_export_order" model="ir.cron">
+        <field name="name">Shopify: Export Order</field>
+        <field name="model_id" ref="sale.model_sale_order"/>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="state">code</field>
+        <field name="code">model._export_order_cron()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">hours</field>
+        <field name="numbercall">-1</field>
+        <field name="active" eval="False"/>
+    </record>
+
+    <record id="ir_cron_export_stock" model="ir.cron">
+        <field name="name">Shopify: Export Stock</field>
+        <field name="model_id" ref="sk_shopify_connector_for_odoo.model_shopify_queue"/>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="state">code</field>
+        <field name="code">model._create_queue_records_from_cron('import_stock')</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">hours</field>
+        <field name="numbercall">-1</field>
+        <field name="active" eval="False"/>
+    </record>    
+
+    <record id="ir_cron_import_payout_report" model="ir.cron">
+        <field name="name">Shopify: Payout Report</field>
+        <field name="model_id" ref="sk_shopify_connector_for_odoo.model_shopify_payout_report"/>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="state">code</field>
+        <field name="code">model.auto_import_payout_report()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="active" eval="False"/>
+    </record>
+
+    <record id="ir_cron_process_queue" model="ir.cron">
+        <field name="name">Shopify: Process Draft Queues</field>
+        <field name="model_id" ref="sk_shopify_connector_for_odoo.model_shopify_queue"/>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="state">code</field>
+        <field name="code">model.auto_process_queue_cron()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">hours</field>
+        <field name="numbercall">-1</field>
+        <field name="active" eval="False"/>
+    </record>
+
+</odoo>

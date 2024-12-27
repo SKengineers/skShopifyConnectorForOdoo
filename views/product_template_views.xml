@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="product_template_search_view_shopify_connector" model="ir.ui.view">
+        <field name="name">product.template.search.shopify.connector</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_search_view"/>
+        <field name="arch" type="xml">
+            <filter name="filter_to_purchase" position="after">
+                <filter string="Shopify Products" name="filter_to_shopify" domain="[('shopify_product_id', '!=', False)]"/>
+            </filter>
+        </field>
+    </record>
+
+    <record id="product_template_form_view_inherit_shopify" model="ir.ui.view">
+        <field name="name">product.template.form.view.inherit.shopify.connector</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook[last()]" position="inside">
+                <page string="Shopify Info" name="shopify_info">
+                    <group>
+                        <group name="information" string="Information">
+                            <field string="Shopify ID" name="shopify_product_id" readonly="1"/>
+                            <field string="GraphQL ID" name="shopify_graphql_id" readonly="1"/>
+                            <field string="Shopify Instance" name="shopify_instance_id" readonly="1"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_shopify_product_template" model="ir.actions.act_window">
+        <field name="name">Products</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.template</field>
+        <field name="context">{'search_default_filter_to_shopify': 1}</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_call_product_export_layer_wizard" model="ir.actions.server">
+        <field name="name">Export to Shopify Product Layer</field>
+        <field name="model_id" ref="product.model_product_template"/>
+        <field name="binding_model_id" ref="product.model_product_template"/>
+        <field name="binding_view_types">form,tree</field>
+        <field name="state">code</field>
+        <field name="code">
+if record:
+    action_values = env.ref('sk_shopify_connector_for_odoo.action_operation_shopify_wizard').read()[0]
+    ctx = env.context
+    ctx.update({'default_operation_type': 'export_product_layer'})
+    action_values.update({'context': ctx})
+    action = action_values
+        </field>
+    </record>
+</odoo>

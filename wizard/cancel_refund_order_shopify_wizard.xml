@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="cancel_refund_order_wizard_form_view">
+        <field name="name">cancel.refund.order.wizard.form.view</field>
+        <field name="model">cancel.refund.order.shopify.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                        <field name="transaction_type" invisible="1"/>
+                            <field name="message" 
+                                   invisible="transaction_type == 'refund_order'"
+                                   required="transaction_type == 'cancel_order'"/>
+                        </group>
+                        <group>
+                            <field name="notify_email"/>
+                        </group>
+
+                        <group>
+                            <field name="restock_type"
+                                   invisible="transaction_type == 'cancel_order'"
+                                   required="transaction_type == 'refund_order'"/>
+                            <field name="note"
+                                   invisible="transaction_type == 'cancel_order'"
+                                   required="transaction_type == 'refund_order'"
+                                   />
+                        </group>
+                        <group name="refund_info"
+                               invisible="transaction_type == 'refund_order'">
+                                <field name="reason"/>
+                                <field name="journal_id"/>
+                        </group>
+                        <field name="transaction_line_id"
+                                   widget="one2many"
+                                   mode="tree"
+                                   colspan="3"
+                                   nolabel="1"
+                                   invisible="transaction_type == 'cancel_order'"
+                                   >
+                                <tree string="Line" delete="false" editable="top">
+                                    <field name="payment_gateway_id"/>
+                                    <field name="amount"/>
+                                    <field name="remaining_refund_amount"/>
+                                    <field name="refund_amount"/>
+                                    <field name="is_want_to_refund"/>
+                                </tree>
+                        </field>
+
+                    </group>
+
+                    <footer>
+                        <button name="execute_cancel_operation" type="object"
+                                string="Cancel Order" class="btn-primary"
+                                invisible="transaction_type == 'refund_order'"/>
+                        <button name="execute_refund_operation" type="object"
+                                string="Refund in Shopify" class="btn-primary"
+                                invisible="transaction_type == 'cancel_order'"/>
+                        <button name="close" special="cancel"
+                                string="Discard" class="btn-secondary"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_cancel_refund_shopify_wizard">
+        <field name="name">Operations</field>
+        <field name="res_model">cancel.refund.order.shopify.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

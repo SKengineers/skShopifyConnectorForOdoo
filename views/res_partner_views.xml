@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="shopify_res_partner_view_form" model="ir.ui.view">
+        <field name="name">shopify.res.partner.order.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook[last()]" position="inside">
+                <page string="Shopify Info" name="shopify_info">
+                    <group>
+                        <group name="information" string="Information">
+                            <field name="shopify_user_id" readonly="1"/>
+                            <field name="shopify_address_id" readonly="1"/>
+                            <field name="shopify_order_count" readonly="1"/>
+                            <field name="shopify_customer_note" readonly="1"/>
+                            <field name="is_exported" readonly="1"/>
+                            <field name="is_shopify_customer" readonly="1"/>
+                            <field name="shopify_instance_id" readonly="1"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

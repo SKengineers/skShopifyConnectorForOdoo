@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="shopify_product_product_search_view" model="ir.ui.view">
+        <field name="name">shopify.product.product.search</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_view_search_catalog"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='favorites']" position="after">
+                <filter string="Shopify Variants" name="filter_product_to_shopify" domain="[('product_product_id', '!=', False)]"/>
+                <separator/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="product_product_form_view_inherit_shopify" model="ir.ui.view">
+        <field name="name">product.product.form.view.inherit.shopify.connector</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook[last()]" position="inside">
+                <page string="Shopify Info" name="shopify_info">
+                    <group>
+                        <group name="information" string="Information">
+                            <field string="Shopify ID" name="product_product_id" readonly="1"/>
+                            <field string="Product GraphQL ID" name="product_graphql_id" readonly="1"/>
+                            <field string="Inventory Item ID" name="shopify_inventory_id" readonly="1"/>
+                            <field string="Inventory Item GraphQL ID" name="inventory_graphql_id" readonly="1"/>
+                            <field string="Shopify Instance" name="shopify_instance_id" readonly="1"/>
+                        </group>
+                        <group name="pricing" string="Pricing">
+                            <field name="compare_at_price" readonly="1"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_shopify_product_product" model="ir.actions.act_window">
+        <field name="name">Products</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.product</field>
+        <field name="context">{'search_default_filter_product_to_shopify': 1}</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_call_export_stock_wizard" model="ir.actions.server">
+        <field name="name">Export Stock</field>
+        <field name="model_id" ref="product.model_product_product"/>
+        <field name="binding_model_id" ref="product.model_product_product"/>
+        <field name="binding_view_types">form,tree</field>
+        <field name="state">code</field>
+        <field name="code">
+if record:
+    action_values = env.ref('sk_shopify_connector_for_odoo.action_operation_shopify_wizard').read()[0]
+    ctx = env.context
+    ctx.update({'default_operation_type': 'export_stock'})
+    action_values.update({'context': ctx})
+    action = action_values
+        </field>
+    </record>
+</odoo>

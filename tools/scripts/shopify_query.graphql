@@ -1,0 +1,498 @@
+query TestConnection{
+     shop { name id } 
+}
+
+# Get all Locations
+query GetLocations($first: Int!, $after: String) {
+  locations(first: $first, after: $after, includeInactive: true, includeLegacy: true) {
+    edges {
+      node {
+        id
+        name
+        isActive
+        shipsInventory
+        legacyResourceId
+        address {
+          formatted
+        }
+      }
+    }
+    pageInfo {
+      hasNextPage
+    }
+  }
+}
+
+# Get all Products
+query GetProducts($first: Int!, $after: String, $query: String){
+  products(first: $first, after: $after, query:$query) {
+    edges {
+      node {
+        id
+        legacyResourceId
+        title
+        handle
+        hasOnlyDefaultVariant
+        productType
+        status
+        tags
+        descriptionHtml
+        media(first: $first) {
+          nodes {
+            alt
+            id
+            mediaContentType
+            status
+          }
+        }
+        variants(first: $first) {
+          nodes {
+            id
+            legacyResourceId
+            price
+            barcode
+            sku
+            displayName
+            compareAtPrice
+            position
+            image {
+              altText
+              id
+              width
+            }
+            inventoryItem {
+						  id
+              legacyResourceId
+              unitCost {
+                amount
+              }
+						}
+            selectedOptions {
+              name
+              optionValue {
+                id
+                name
+              }
+              value
+            }
+          }
+        }
+        options {
+          id
+          name
+          optionValues {
+            id
+            name
+          }
+          values
+        }
+      }
+      cursor
+    }
+    pageInfo {
+      hasNextPage
+    }
+  }
+}
+
+# Get all Customers
+query GetCustomers($first: Int!, $after: String, $query: String){
+  customers(first: $first, after: $after, query:$query) {
+    edges {
+      node {
+        id
+        lastName
+        firstName
+        phone
+        email
+        displayName
+        legacyResourceId
+        state
+        addresses {
+          id
+          lastName
+          firstName
+          address1
+          address2
+          city
+          countryCodeV2
+        }
+      }
+      cursor
+    }
+    pageInfo {
+      hasNextPage
+    }
+  }
+}
+
+# Get all orders
+query GetOrders($first: Int!, $after: String, $query: String){
+  orders(first: $first, after: $after, query:$query) {
+    edges {
+      node {
+        id
+        name
+				displayFulfillmentStatus
+        cancellation {
+          staffNote
+        }
+        cancelledAt
+        cancelReason
+        paymentGatewayNames
+        customer {
+          displayName
+          id
+          legacyResourceId
+        }
+      	lineItems(first: 50){
+          nodes{
+            id
+            title
+            product {
+              legacyResourceId
+              id
+            }
+            variant {
+              id
+              legacyResourceId
+              title
+              selectedOptions {
+                value
+              }
+            }
+            discountedUnitPriceAfterAllDiscountsSet {
+              
+              presentmentMoney{
+                amount
+                currencyCode
+            	}
+              shopMoney {
+                amount
+                currencyCode
+              }
+            }
+          	quantity
+            taxLines {
+              priceSet {
+                presentmentMoney {
+                  amount
+                }
+              }
+              rate
+              title
+            }
+          }
+        }
+        legacyResourceId
+        customer {
+          id
+          legacyResourceId
+        }
+        subtotalPriceSet {
+          shopMoney {
+            amount
+          }
+        }
+      }
+      cursor
+    }
+    pageInfo {
+      hasNextPage
+    }
+  }
+}
+
+# Get Inventory Items
+query GetinventoryItems($first: Int!, $after: String, $query: String) {
+  inventoryItems(first: $first, after: $after, query:$query) {
+    edges {
+      node {
+        id
+        legacyResourceId
+        tracked
+        sku
+        variant {
+          displayName
+        }
+        inventoryLevels(first: 1) {
+          edges {
+            node {
+              quantities(names: ["available", "on_hand"]) {
+                name
+                quantity
+              }
+            }
+          }
+        }
+      }
+      cursor
+    }
+    pageInfo {
+      hasNextPage
+    }
+  }
+}
+
+mutation CreateProductWithOptions($input: ProductInput!) {
+  productCreate(input: $input) {
+    userErrors {
+      field
+      message
+    }
+    product {
+      id
+      legacyResourceId
+      options {
+        id
+        name
+        position
+        values
+        optionValues {
+          id
+          name
+          hasVariants
+        }
+      }
+      variants(first: 20) {
+        nodes {
+          id
+          title
+          selectedOptions {
+            name
+            value
+          }
+        }
+      }
+    }
+  }
+}
+
+mutation draftOrderCreate($input: DraftOrderInput!) {
+  draftOrderCreate(input: $input) {
+    draftOrder {
+      id
+      legacyResourceId
+      name
+    }
+  }
+}
+
+mutation inventorySetQuantities($input: InventorySetQuantitiesInput!) {
+  inventorySetQuantities(input: $input) {
+    inventoryAdjustmentGroup {
+      reason
+      referenceDocumentUri
+      changes {
+        name
+        delta
+        quantityAfterChange
+      }
+    }
+    userErrors {
+      code
+      field
+      message
+    }
+  }
+}
+
+# Cancels an Order
+mutation orderCancel($orderId: ID!, $reason: OrderCancelReason!, $refund: Boolean!, $restock: Boolean!) {
+  orderCancel(orderId: $orderId, reason: $reason, refund: $refund, restock: $restock) {
+    job {
+      done
+      id
+    }
+    orderCancelUserErrors {
+      code
+      field
+      message
+    }
+  }
+}
+
+mutation M($input: RefundInput!) {
+  refundCreate(input: $input) {
+    userErrors {
+      field
+      message
+    }
+    refund {
+      id
+      note
+      totalRefundedSet {
+        presentmentMoney {
+          amount
+        }
+      }
+    }
+  }
+}
+
+
+# Get Payout Report Data
+query GetPayoutReport($first: Int!, $after: String, $query: String){
+  shopifyPaymentsAccount {
+    # ShopifyPaymentsAccount fields
+    activated
+    balance{
+      amount
+      currencyCode
+    }
+    defaultCurrency
+    balanceTransactions(first: $first, after: $after, query:$query) {
+      edges {
+        node {
+          adjustmentReason
+          adjustmentsOrders {
+            amount {
+              amount
+            }
+            link
+            name
+            orderTransactionId
+          }
+          amount {
+            amount
+          }
+          associatedOrder{
+            id
+            name
+          }
+          fee {
+            amount
+            currencyCode
+          }
+          net {
+            amount
+            currencyCode
+          }
+          sourceId
+          sourceType
+          id
+          test
+          transactionDate
+          type
+        }
+        cursor
+      }
+      pageInfo {
+        hasNextPage
+      }
+    }
+  }
+}
+
+query GetMedia($id: ID!) {
+  node(id: $id) {
+    id
+    ... on MediaImage {
+      image {
+        url
+        width
+        height
+        altText
+      }
+    }
+    ... on ExternalVideo {
+      embedUrl
+      status
+    }
+  }
+}
+
+mutation stagedUploadsCreate($input: [StagedUploadInput!]!) {
+  stagedUploadsCreate(input: $input) {
+    stagedTargets {
+      url
+      resourceUrl
+      parameters {
+        name
+        value
+      }
+    }
+  }
+}
+
+mutation productCreateMedia($media: [CreateMediaInput!]!, $productId: ID!) {
+  productCreateMedia(media: $media, productId: $productId) {
+    media {
+      alt
+      mediaContentType
+      status
+    }
+    mediaUserErrors {
+      field
+      message
+    }
+    product {
+      id
+      title
+    }
+  }
+}
+
+# Webhook Create
+mutation webhookSubscriptionCreate($topic: WebhookSubscriptionTopic!, $webhookSubscription: WebhookSubscriptionInput!) {
+  webhookSubscriptionCreate(topic: $topic, webhookSubscription: $webhookSubscription) {
+    webhookSubscription {
+      id
+      topic
+      filter
+      format
+      endpoint {
+        __typename
+        ... on WebhookHttpEndpoint {
+          callbackUrl
+        }
+      }
+    }
+    userErrors {
+      field
+      message
+    }
+  }
+}
+
+# Webhook Update
+mutation WebhookSubscriptionUpdate($id: ID!, $webhookSubscription: WebhookSubscriptionInput!) {
+  webhookSubscriptionUpdate(id: $id, webhookSubscription: $webhookSubscription) {
+    userErrors {
+      field
+      message
+    }
+    webhookSubscription {
+      id
+      topic
+      endpoint {
+        __typename
+        ... on WebhookHttpEndpoint {
+          callbackUrl
+        }
+        ... on WebhookEventBridgeEndpoint {
+          arn
+        }
+        ... on WebhookPubSubEndpoint {
+          pubSubProject
+          pubSubTopic
+        }
+      }
+      apiVersion {
+        handle
+      }
+      format
+    }
+  }
+}
+
+# Webhook Delete
+mutation webhookSubscriptionDelete($id: ID!) {
+  webhookSubscriptionDelete(id: $id) {
+    userErrors {
+      field
+      message
+    }
+    deletedWebhookSubscriptionId
+  }
+}

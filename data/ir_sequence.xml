@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Shopify Import Product Sequence -->
+        <record id="shopify_import_product_seq" model="ir.sequence">
+            <field name="name">Shopify Import Product Queue</field>
+            <field name="code">shopify.import.product.queue</field>
+            <field name="prefix">SIPQ</field>
+            <field name="padding">5</field>
+        </record>
+
+        <!-- Shopify Import Customer Sequence -->
+        <record id="shopify_import_customer_seq" model="ir.sequence">
+            <field name="name">Shopify Import Customer Queue</field>
+            <field name="code">shopify.import.customer.queue</field>
+            <field name="prefix">SICQ</field>
+            <field name="padding">5</field>
+        </record>
+
+        <!-- Shopify Import Order Sequence -->
+        <record id="shopify_import_order_seq" model="ir.sequence">
+            <field name="name">Shopify Import Order Queue</field>
+            <field name="code">shopify.import.order.queue</field>
+            <field name="prefix">SIOQ</field>
+            <field name="padding">5</field>
+        </record>
+
+        <!-- Shopify Import Location Sequence -->
+        <record id="shopify_import_location_seq" model="ir.sequence">
+            <field name="name">Shopify Import Location Queue</field>
+            <field name="code">shopify.import.location.queue</field>
+            <field name="prefix">SILQ</field>
+            <field name="padding">5</field>
+        </record>
+
+        <!-- Shopify Import Stock Sequence -->
+        <record id="shopify_import_stock_seq" model="ir.sequence">
+            <field name="name">Shopify Import Stock Queue</field>
+            <field name="code">shopify.import.stock.queue</field>
+            <field name="prefix">SISQ</field>
+            <field name="padding">5</field>
+        </record>
+
+        <!-- Shopify Payout Report Sequence -->
+        <record id="shopify_payout_report_seq" model="ir.sequence">
+            <field name="name">Shopify Payout Report Sequence</field>
+            <field name="code">shopify.payout.report.sequence</field>
+            <field name="prefix">SPRS</field>
+            <field name="padding">5</field>
+        </record>
+
+    </data>
+</odoo>

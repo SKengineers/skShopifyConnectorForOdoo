@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="shopify_order_tree_view" model="ir.ui.view">
+        <field name="name">shopify.order.tree.view</field>
+        <field name="model">sale.order</field>
+        <field name="arch" type="xml">
+            <tree string="Order" create="false">
+                <field name="name"/>
+                <field name="shopify_order_no" readonly="1"/>
+                <field name="date_order"/>
+                <field name="partner_id"/>
+                <field name="user_id" readonly="1"/>
+                <field name="state" readonly="1"/>
+                <field name="shopify_instance_id"/>
+                <field name="is_shopify_order" readonly="1"/>
+                <field name="shopify_status" readonly="1"/>
+                <field name="is_exported" readonly="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="order_search_shopify_inherit_view" model="ir.ui.view">
+        <field name="name">order.search.shopify.inherit.view</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+        <field name="arch" type="xml">
+            <search>
+                <filter string="Shopify Orders" name="shopify_imported_orders"
+                        domain="[('shopify_id', '!=', False)]"/>                        
+            </search>
+        </field>
+    </record>
+
+    <record id="action_shopify_order" model="ir.actions.act_window">
+        <field name="name">Shopify Orders</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.order</field>
+        <field name="domain">[('shopify_id', '!=', False)]</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_call_export_order_operation_shopify_wizard" model="ir.actions.server">
+        <field name="name">Export Order</field>
+        <field name="model_id" ref="sale.model_sale_order"/>
+        <field name="binding_model_id" ref="sale.model_sale_order"/>
+        <field name="binding_view_types">form,tree</field>
+        <field name="state">code</field>
+        <field name="code">
+if record:
+    action_values = env.ref('sk_shopify_connector_for_odoo.action_operation_shopify_wizard').read()[0]
+    ctx = env.context
+    ctx.update({'default_operation_type': 'export_order'})
+    action_values.update({'context': ctx})
+    action = action_values
+        </field>
+    </record>
+</odoo>

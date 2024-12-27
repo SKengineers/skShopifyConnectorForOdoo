@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="shopify_res_config_settings_form_view">
+    <field name="name">res.config.settings.form.view</field>
+    <field name="model">res.config.settings</field>
+    <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+    <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="AGShopifyConnectorForOdoo"
+                     string="Shopify Connector for Odoo"
+                     name="sk_shopify_connector_for_odoo"
+                     groups="sk_shopify_connector_for_odoo.group_shopify_admin">
+
+                    <block title="Shopify" id="shopify_selection_settings">
+                        <setting id="shopify_instance_settings"
+                                 colspan="4"
+                                 help="This should be the default instance in any shopify operation"
+                                 options="{'no_create': True, 'no_quick_create': True}">
+                            <field name="shopify_instance"/>
+                        </setting>
+                        <div class="content-group">
+                            <button name="button_create_instances" type="object" string="Create Instance" icon="oi-arrow-right" class="btn-link p-1"/>
+                        </div>
+
+                    </block>
+
+                    <block title="Payout Report" id="shopify_payout_report_settings">
+                        <setting id="shopify_payout_journal_settings"
+                                 colspan="4"
+                                 help="Creates Bank Statement using this journal while process Payout Report (Shopify Payment method only)"
+                                 options="{'no_create': True, 'no_quick_create': True}">
+                        <field name="payout_report_journal_id"/>
+                        </setting>
+                    </block>
+
+                    <!-- TODO: For Future Roadmap -->
+                    <!-- <block title="Order Configuration" id="shopify_order_config_settings">
+                        <setting id="shopify_sales_team"
+                                 colspan="4"
+                                 help="Set the sales team for shopify orders"
+                                 options="{'no_create': True, 'no_quick_create': True}">
+                        <field name="sale_team_id"/>
+                        </setting>
+                    </block>
+
+                    <block title="Product Configuration" id="shopify_product_config_settings">
+                        <setting id="shopify_pricelist_id_settings"
+                                colspan="4"
+                                help="During product sync operation, prices will be imported/exported using this pricelist."
+                                options="{'no_create': True, 'no_quick_create': True}">
+                            <field name="pricelist_id"/>
+                        </setting>
+                        <setting id="shopify_is_import_images_settings"
+                                 colspan="4"
+                                 help="If checked, it will automatically set product while product import."
+                                 options="{'no_create': True, 'no_quick_create': True}">
+                            <field name="is_import_images"/>
+                        </setting>
+                    </block> -->
+
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_shopify_settings" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_id" ref="shopify_res_config_settings_form_view"/>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module' : 'sk_shopify_connector_for_odoo', 'bin_size': False}</field>
+    </record>
+
+</odoo>

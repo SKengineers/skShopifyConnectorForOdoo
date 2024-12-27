@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="shopify_payment_gateway_form_view" model="ir.ui.view">
+        <field name="name">shopify.payment.gateway.form.view</field>
+        <field name="model">shopify.payment.gateway</field>
+        <field name="arch" type="xml">
+            <form string="Payment Gateway">
+                <sheet>
+                    <group name="Payment Gateway">
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                        </group>
+                        <group>
+                            <field name="shopify_instance_id" options="{'no_create':True,'no_create_edit': True}"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="shopify_payment_gateway_tree_view" model="ir.ui.view">
+        <field name="name">shopify.payment.gateway.tree.view</field>
+        <field name="model">shopify.payment.gateway</field>
+        <field name="arch" type="xml">
+            <tree string="Payment Gateway">
+                <field name="shopify_instance_id"/>
+                <field name="name"/>
+                <field name="code"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="shopify_payment_gateway_action" model="ir.actions.act_window">
+        <field name="name">Payment Gateway</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">shopify.payment.gateway</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="shopify_product_form_view" model="ir.ui.view">
+        <field name="name">shopify.product.form.view</field>
+        <field name="model">shopify.product</field>
+        <field name="arch" type="xml">
+            <form string="Shopify Product Layer" create="false">
+                <sheet>
+                    <div class="oe_title" id="title">
+                        <label for="name" string="Name"/>
+                        <h1 id="name"><field name="name" required="1" placeholder="e.g. Odoo"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="product_tmpl_id"/>
+                            <field name="product_category_id"/>
+                        </group>
+                        <group>
+                            <field name="shopify_instance_id"/>
+                            <field name="status" readonly="1"/>
+                            <field name="is_export" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Detail" name="product_detail">
+                            <field name="product_body_html" string="Description" nolabel="1"/>
+                        </page>
+                        <page string="Images" name="product_images">
+                            <field name="shopify_images"
+                                    widget="many2many" readonly="1">
+                                <tree string="Images">
+                                    <field name="name"/>
+                                    <field name="product_tmpl_id"/>
+                                    <field name="media_content_type"/>
+                                    <field name="url" widget="url"/>
+                                    <field name="template_filename" column_invisible="1"/>
+                                    <field name="template_image" filename="template_filename" widget="image" class="oe_avatar"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="shopify_product_tree_view" model="ir.ui.view">
+        <field name="name">shopify.product.tree.view</field>
+        <field name="model">shopify.product</field>
+        <field name="arch" type="xml">
+            <tree string="Product"
+                decoration-muted="status == 'unpublish'"
+                create="false"
+            >
+                <header>
+                    <button name="%(sk_shopify_connector_for_odoo.action_update_product_wizard)d"
+                            type="action"
+                            string="Update Existing Product"
+                            class="btn-secondary"/>
+                </header>
+                <field name="name"/>
+                <field name="shopify_instance_id" readonly="1" string="Instance"/>
+                <field name="is_export" readonly="1"/>
+                <field name="status" readonly="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="shopify_product_action" model="ir.actions.act_window">
+        <field name="name">Products</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">shopify.product</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_empty_folder">
+                Create Shopify Product.
+            </p>
+            <p>
+                Create a Shopify product first before you can use the functionality of the connector.
+            </p>
+        </field>
+    </record>
+
+</odoo>

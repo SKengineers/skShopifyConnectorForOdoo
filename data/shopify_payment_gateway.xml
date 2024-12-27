@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <!-- Manual Payment -->
+        <record id="pg_manual_payment" model="shopify.payment.gateway">
+            <field name="name">Manual</field>
+            <field name="code">manual</field>
+        </record>
+    </data>
+</odoo>

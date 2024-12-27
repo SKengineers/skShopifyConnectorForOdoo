@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="onboarding_step_setup_instance" model="onboarding.onboarding.step">
+            <field name="title">Create Instance</field>
+            <field name="description">Create the new Shopify instance here.</field>
+            <field name="button_text">Create Instance</field>
+            <field name="done_text">Looks great!</field>
+            <field name="done_icon">fa-star</field>
+            <field name="panel_step_open_action_name">shopify_instance_action</field>
+            <field name="step_image_alt">Onboarding Shopify Confirmation</field>
+            <field name="sequence">1</field>
+        </record>
+    
+        <record id="onboarding_step_manage_configuration" model="onboarding.onboarding.step">
+            <field name="title">Manage Configuration</field>
+            <field name="description">Manage the configuration for your instance.</field>
+            <field name="button_text">Configure</field>
+            <field name="done_text">Looks great!</field>
+            <field name="done_icon">fa-star</field>
+            <field name="panel_step_open_action_name">action_shopify_settings</field>
+            <field name="step_image_alt">Configure Shopify</field>
+            <field name="sequence">2</field>    
+        </record>
+
+        <record id="onboarding_step_setup_financial_status" model="onboarding.onboarding.step">
+            <field name="title">Financial Status</field>
+            <field name="description">Configure the Shopify Financial Status here.</field>
+            <field name="button_text">Configure</field>
+            <field name="done_text">Looks great!</field>
+            <field name="done_icon">fa-star</field>
+            <field name="panel_step_open_action_name">shopify_financial_status_action</field>
+            <field name="step_image_alt">Configure Financial Details</field>
+            <field name="sequence">3</field>    
+        </record>
+
+        <!-- For Future Roadmap -->
+        <record id="onboarding_step_scheduler_configuration" model="onboarding.onboarding.step">
+            <field name="title">Scheduler Configurations</field>
+            <field name="description">Configure the schedule actions for automation.</field>
+            <field name="button_text">Configure</field>
+            <field name="done_text">Looks great!</field>
+            <field name="done_icon">fa-star</field>
+            <field name="panel_step_open_action_name">action_scheduler_configuration</field>
+            <field name="step_image_alt">Configure Scheduler</field>
+            <field name="sequence">3</field>    
+        </record>
+
+        <!-- ONBOARDING PANELS -->
+        <record id="onboarding_onboarding_shopify_instance_dashboard" model="onboarding.onboarding">
+            <field name="name">Shopify Onboarding</field>
+            <field name="step_ids" eval="[
+                Command.link(ref('onboarding_step_setup_instance')),
+                Command.link(ref('onboarding_step_manage_configuration')),
+                Command.link(ref('onboarding_step_setup_financial_status')),
+            ]"/>
+            <field name="route_name">shopify_onboarding</field>
+            <field name="panel_close_action_name">action_close_panel_shopify_instance_dashboard</field>
+        </record>
+    </data>
+</odoo>

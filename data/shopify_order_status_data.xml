@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data noupdate="0">
+        <record id="unfulfill_data" model="shopify.order.status">
+            <field name="name">Unfulfilled</field>
+            <field name="status">unfulfilled</field>
+        </record>
+
+        <record id="ship_data" model="shopify.order.status">
+            <field name="name">Partially Fulfilled</field>
+            <field name="status">partial</field>
+        </record>
+
+        <record id="fulfill_data" model="shopify.order.status">
+            <field name="name">Fulfilled</field>
+            <field name="status">fulfilled</field>
+        </record>
+    </data>
+</odoo>

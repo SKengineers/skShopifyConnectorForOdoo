@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="shopify_payout_report_tree_view" model="ir.ui.view">
+        <field name="name">shopify.payout.report.tree.view</field>
+        <field name="model">shopify.payout.report</field>
+        <field name="arch" type="xml">
+            <tree string="Instance" create="false">
+                <field name="name" readonly="1"/>
+                <field name="shopify_instance_id" readonly="1"/>
+                <field name="payout_date" readonly="1"/>
+                <field name="payout_status" readonly="1"/>
+                <field name="total_amount"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="shopify_payout_report_form_view" model="ir.ui.view">
+        <field name="name">shopify.payout.report.form.view</field>
+        <field name="model">shopify.payout.report</field>
+        <field name="arch" type="xml">
+            <form string="Payout Report" create="false">
+                <header>
+                    <field name="status" widget="statusbar" statusbar_visible="new,process,validate"/>
+                    <!-- <button name="generate_bank_statement"
+                            string="Generate Bank Statement"
+                            type="object"
+                            confirm="Are you sure you want to generate a bank statement?"
+                            invisible="status != 'new'"/> -->
+                </header>
+                <sheet>
+                    <div class="oe_title" id='title'>
+                        <label for="name" string="Name"/>
+                        <h1 id="name"><field name="name" required="1" readonly="1" placeholder="e.g. Odoo"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="payout_date" readonly="1"/>
+                            <field name="shopify_instance_id" readonly="1"/>
+                            <field name="payout_status" readonly="1"/>
+                            <field name="total_amount" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="payout_transaction_line" string="Payout Transaction Lines">
+                            <field name="transaction_line_ids" nolabel="1" mode="tree">
+                                <tree create="0">
+                                    <field name="transaction_type"/>
+                                    <field name="transaction_id"/>
+                                    <field name="order_reference"/>
+                                    <field name="net_amount"/>
+                                    <field name="fees"/>
+                                    <field name="amount"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_shopify_payout_report" model="ir.actions.act_window">
+        <field name="name">Payout Report</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">shopify.payout.report</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

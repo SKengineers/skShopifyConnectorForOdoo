@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="shopify_sale_order_view_form" model="ir.ui.view">
+        <field name="name">shopify.sale.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <button name="action_quotation_send" position="after">
+                <button name="action_goto_shopify_link" type="object" id="goto_shopify_link"
+                    string="Link to Shopify Order"
+                    invisible="not shopify_id"/>
+
+                <button name="action_cancel_shopify" type="object" id="goto_cancel_shopify"
+                    string="Cancel in Shopify"
+                    invisible="state != 'cancel'"/>
+
+            </button>
+            <xpath expr="//notebook/page[@name='customer_signature']" position="after">
+                <page string="Shopify Info" name="shopify_info">
+                    <group>
+                        <group name="information" string="Information">
+                            <field name="shopify_id" readonly="1"/>
+                            <field name="shopify_order_no" readonly="1"/>
+                            <field name="shopify_processing_method" readonly="1"/>
+                            <field name="shopify_status" readonly="1"/>
+                            <field name="shopify_fulfillment_status" readonly="1"/>
+                            <field name="shopify_fulfillment_location" readonly="1"/>
+                            <field name="shopify_instance_id" readonly="1"/>
+                        </group>
+                        <group name="order" string="Order">
+                            <field name="shopify_order_url" readonly="1"/>
+                            <field name="shopify_order_date" readonly="1"/>
+                            <field name="shopify_order_subtotal" readonly="1"/>
+                            <field name="shopify_order_total_tax" readonly="1"/>
+                            <field name="shopify_order_total" readonly="1"/>
+                            <field name="shopify_order_note" readonly="1"/>
+                        </group>
+                        <group name="status" string="Status">
+                            <field name="is_exported" readonly="1"/>
+                            <field name="is_shopify_order" readonly="1"/>
+                            <field name="is_shopify_draft_order" readonly="1"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

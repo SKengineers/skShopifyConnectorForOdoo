@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="shopify_product_variant_form_view" model="ir.ui.view">
+        <field name="name">shopify.product.variant.form.view</field>
+        <field name="model">shopify.product.variant</field>
+        <field name="arch" type="xml">
+            <form string="Shopify Product Layer" create="false">
+                <sheet>
+                    <div class="oe_title" id="title">
+                        <label for="name" string="Name"/>
+                        <h1 id="name"><field name="name" required="1" placeholder="e.g. Odoo"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="product_id"/>
+                            <field name="active" readonly="1"/>
+                            <field name="default_code" readonly="1"/>
+                            <field name="sequence" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="shopify_instance_id"/>
+                            <field name="exported_in_shopify" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="inventory_item_id" readonly="1"/>
+                            <field name="inventory_graphql_id" readonly="1"/>
+                            <field name="variant_id" readonly="1"/>
+                            <field name="variant_graphql_id" readonly="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="shopify_product_variant_tree_view" model="ir.ui.view">
+        <field name="name">shopify.product.variant.tree.view</field>
+        <field name="model">shopify.product.variant</field>
+        <field name="arch" type="xml">
+            <tree string="Product" create="false">
+                <field name="sequence"/>
+                <field name="name"/>
+                <field name="product_id"/>
+                <field name="shopify_instance_id" readonly="1" string="Instance"/>
+                <field name="inventory_item_id" readonly="1"/>
+                <field name="exported_in_shopify" readonly="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="shopify_product_variant_action" model="ir.actions.act_window">
+        <field name="name">Products</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">shopify.product.variant</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_empty_folder">
+                Create Shopify Product Variant.
+            </p>
+            <p>
+                Create a Shopify product first before you can use the functionality of the connector.
+            </p>
+        </field>
+    </record>
+
+</odoo>

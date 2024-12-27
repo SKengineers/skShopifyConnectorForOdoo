@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="shopify_customer_tree_view" model="ir.ui.view">
+        <field name="name">shopify.customer.tree.view</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <tree string="Customer" create="false">
+                <field name="name"/>
+                <field name="email"/>
+                <field name="phone"/>
+                <field name="shopify_instance_id" readonly="1"/>
+                <field name="shopify_user_id"/>
+                <field name="is_exported" readonly="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="customer_search_shopify_inherit_view" model="ir.ui.view">
+        <field name="name">customer.search.shopify.inherit.view</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <search>
+                <filter string="Shopify Synched Customers" name="shopify_imported_customers"
+                        domain="[('shopify_user_id', '!=', False)]"/>
+                <filter string="Shopify Unsynched Customers" name="shopify_export_customers"
+                        domain="[('shopify_user_id', '=', False)]"/>                        
+            </search>
+        </field>
+    </record>
+
+    <record id="action_shopify_res_partner" model="ir.actions.act_window">
+        <field name="name">Shopify Contacts</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_id" ref="shopify_customer_tree_view"/>
+        <field name="context">{'search_default_shopify_imported_customers': 1}</field>
+        <field name="view_mode">tree,kanban,form</field>
+    </record>
+
+    <record id="action_call_import_customer_operation_shopify_wizard" model="ir.actions.server">
+        <field name="name">Export Customer</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="binding_model_id" ref="base.model_res_partner"/>
+        <field name="binding_view_types">form,tree</field>
+        <field name="state">code</field>
+        <field name="code">
+if record:
+    action_values = env.ref('sk_shopify_connector_for_odoo.action_operation_shopify_wizard').read()[0]
+    ctx = env.context
+    ctx.update({'default_operation_type': 'export_customer'})
+    action_values.update({'context': ctx})
+    action = action_values
+        </field>
+    </record>
+
+</odoo>

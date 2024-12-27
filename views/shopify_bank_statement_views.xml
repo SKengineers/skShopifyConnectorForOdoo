@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="shopify_bank_statement_tree_view" model="ir.ui.view">
+        <field name="name">shopify.bank.statement.tree.view</field>
+        <field name="model">shopify.bank.statement</field>
+        <field name="arch" type="xml">
+            <tree string="Bank Statement" create="false">
+                <field name="name" readonly="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="shopify_bank_statement_form_view" model="ir.ui.view">
+        <field name="name">shopify.bank.statement.form.view</field>
+        <field name="model">shopify.bank.statement</field>
+        <field name="arch" type="xml">
+            <form string="Bank Statement" create="false">
+                <sheet>
+                    <div class="oe_title" id='title'>
+                        <label for="name" string="Name"/>
+                        <h1 id="name"><field name="name" required="1" readonly="1" placeholder="e.g. Odoo"/></h1>
+                    </div>
+                    <notebook>
+                        <page name="line_ids" string="Transaction Lines">
+                            <field name="line_ids" nolabel="1" mode="tree">
+                                <tree create="0">
+                                    <field name="date"/>
+                                    <field name="payment_ref"/>
+                                    <field name="partner_id"/>
+                                    <field name="amount"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_bank_statement_report" model="ir.actions.act_window">
+        <field name="name">Bank Statement</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">shopify.bank.statement</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

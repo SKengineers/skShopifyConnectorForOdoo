@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <menuitem name="Shopify Connector"
+        id="shopify_connector_menu_main"
+        web_icon="sk_shopify_connector_for_odoo,static/description/icon.png"
+        sequence="260"/>
+
+    <menuitem name="Dashboard" 
+        id="shopify_dashboards"
+        parent="shopify_connector_menu_main"
+        action="action_shopify_instance_kanban"
+        sequence="10"/>
+
+    <menuitem name="Products" 
+        id="shopify_product_parent_menu"
+        parent="shopify_connector_menu_main"
+        sequence="20"/>
+
+        <menuitem name="Product"
+                id="shopify_product_menu"
+                parent="shopify_product_parent_menu"
+                action="shopify_product_action"
+                sequence="10"/>
+        
+        <!-- <menuitem name="Product Variant"
+                id="shopify_product_variant_menu"
+                parent="shopify_product_parent_menu"
+                action="shopify_product_variant_action"
+                sequence="20"/> -->
+
+
+    <menuitem name="Logs"
+        id="shopify_log_menu"
+        parent="shopify_connector_menu_main"
+        sequence="30"/>
+
+            <menuitem name="Orders Queue"
+                id="shopify_order_queue_menu"
+                parent="shopify_log_menu"
+                action="shopify_queue_order_action"
+                sequence="10"/>
+
+            <menuitem name="Customers Queue"
+                id="shopify_customer_queue_menu"
+                parent="shopify_log_menu"
+                action="shopify_queue_customer_action"
+                sequence="20"/>
+
+            <menuitem name="Products Queue"
+                id="shopify_products_queue_menu"
+                parent="shopify_log_menu"
+                action="shopify_queue_product_action"
+                sequence="30"/>
+
+            <menuitem name="Locations Queue"
+                id="shopify_location_queue_menu"
+                parent="shopify_log_menu"
+                action="shopify_queue_location_action"
+                sequence="40"/>
+
+            <menuitem name="Stock Queue"
+                id="shopify_stock_queue_menu"
+                parent="shopify_log_menu"
+                action="shopify_queue_stock_action"
+                sequence="50"/>
+
+    <menuitem name="Sales"
+        id="shopify_sales_menu"
+        parent="shopify_connector_menu_main"
+        sequence="40"/>
+
+        <menuitem name="Order"
+            id="shopify_order_menu"
+            parent="shopify_sales_menu"
+            action="action_shopify_order"
+            sequence="10"/>
+
+        <menuitem name="Customer"
+            id="shopify_customer_menu"
+            parent="shopify_sales_menu"
+            action="action_shopify_res_partner"
+            sequence="20"/>
+
+        
+        <menuitem name="Product"
+            id="shopify_product_template_menu"
+            parent="shopify_sales_menu"
+            action="action_shopify_product_template"
+            sequence="40"/>
+        
+        <menuitem name="Product Variant"
+            id="shopify_product_product_menu"
+            parent="shopify_sales_menu"
+            action="action_shopify_product_product"
+            sequence="50"/>
+
+        <menuitem name="Payout Report"
+            id="shopify_payout_report_menu"
+            parent="shopify_sales_menu"
+            action="action_shopify_payout_report"
+            sequence="60"/>    
+
+    <menuitem name="Operation" 
+        id="shopify_operation_menu"
+        parent="shopify_connector_menu_main"
+        action="action_operation_shopify_wizard"
+        sequence="50"/>
+
+    <menuitem name="Reporting" 
+        id="shopify_reporting_menu"
+        parent="shopify_connector_menu_main"
+        sequence="60"/>
+
+        <menuitem id="menu_shopify_sales_reports"
+                name="Sales Report"
+                parent="shopify_reporting_menu"
+                sequence="1"
+                action="action_order_report_all"/>
+
+
+    <menuitem name="Configuration"
+        id="shopify_configuration_menu"
+        parent="shopify_connector_menu_main"
+        sequence="70"
+        groups="group_shopify_admin"/>
+            <menuitem id="menu_shopify_settings"
+                name="Settings"
+                parent="shopify_configuration_menu"
+                sequence="1"
+                action="action_shopify_settings"
+                groups="base.group_system"/>
+
+            <menuitem name="Instance"
+                id="shopify_instance_menu"
+                parent="shopify_configuration_menu"
+                action="shopify_instance_action"
+                sequence="10"
+                groups="group_shopify_admin"/>
+
+            <menuitem name="Locations"
+                id="shopify_location_menu"
+                parent="shopify_configuration_menu"
+                action="shopify_location_actions"
+                sequence="20"
+                groups="group_shopify_admin"/>
+
+            <menuitem name="Auto Workflow"
+                id="shopify_auto_workflow_menu"
+                parent="shopify_configuration_menu"
+                action="shopify_auto_workflow_actions"
+                sequence="30"
+                groups="group_shopify_admin"/>
+
+            <menuitem name="Payment Gateway"
+                id="shopify_payment_gateway_menu"
+                parent="shopify_configuration_menu"
+                action="shopify_payment_gateway_action"
+                sequence="40"
+                groups="group_shopify_admin"/>
+
+            <menuitem name="Financial Status"
+                id="shopify_financial_status_menu"
+                parent="shopify_configuration_menu"
+                action="shopify_financial_status_action"
+                sequence="50"
+                groups="group_shopify_admin"/>
+
+</odoo>

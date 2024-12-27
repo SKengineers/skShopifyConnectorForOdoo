@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="shopify_queue_tree_view" model="ir.ui.view">
+        <field name="name">shopify.queue.tree.view</field>
+        <field name="model">shopify.queue</field>
+        <field name="arch" type="xml">
+            <tree string="Queue" create="0" delete="0" js_class="shopify_queue_dashboard_list">
+                <field name="name"/>
+                <field name="instance_id"/>
+                <field name="status"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="shopify_queue_form_view" model="ir.ui.view">
+        <field name="name">shopify.queue.form.view</field>
+        <field name="model">shopify.queue</field>
+        <field name="arch" type="xml">
+            <form string="Configure Instance" create="false">
+                <!-- Restrict the user from deleting the entries -->
+                <header>
+                    <button name="process_queue"
+                            class="btn btn-primary"
+                            type="object"
+                            string="Process Queue Manually"
+                            invisible="status == 'complete'"
+                            confirm="Are you sure you want to process this queue manually?"/>
+                    <button name="set_to_complete"
+                            class="btn btn-primary"
+                            type="object"
+                            invisible="status == 'complete'"
+                            string="Set to Completed"
+                            confirm="Are you sure you want to complete this queue?"/> 
+                    <field name="status" widget="statusbar" statusbar_visible="draft,complete,fail"/>
+                </header>
+                <sheet>
+                    <div class="oe_title" id='title'>
+                        <label for="name" string="Name"/>
+                        <h1 id="name"><field name="name" required="1" placeholder="e.g. Odoo"/></h1>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="instance_id" readonly="1"/>
+                            <field name="create_date"/>
+                        </group>
+                        <group>
+                            <field name="no_of_record" readonly="1"/>
+                            <field name="no_of_draft" readonly="1"/>
+                            <field name="no_of_failed" readonly="1"/>
+                            <field name="no_of_cancelled" readonly="1"/>
+                            <field name="no_of_done" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Queue Lines" name="queue_lines">
+                            <field name="queue_line" widget="one2many" readonly="1" options="{'no_create': True}">
+                            <tree string="Queue" editable="bottom">
+                                    <field name="shopify_id"/>
+                                    <field name="name"/>
+                                    <!-- <field name="image_import_state"/> -->
+                                    <field name="status"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Mismatch Logs" name="mismatch_queue_logs">
+                            <field name="mismatch_log_ids" widget="one2many" readonly="1" options="{'no_create': True}">
+                            <tree string="Mismatch Logs" editable="bottom">
+                                    <field name="data"/>
+                                    <field name="timestamp"/>
+                                    <field name="queue_id" optional="hide"/>
+                                    <field name="error_type"/>
+                                    <field name="message"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_shopify_queue_search" model="ir.ui.view">
+        <field name="name">shopify.queue.search</field>
+        <field name="model">shopify.queue</field>
+        <field name="arch" type="xml">
+            <search string="Status">
+                <filter string="Draft" name="draft" domain="[('status','=', 'draft')]"/>
+                <filter string="Complete" name="complete" domain="[('status','=', 'complete')]"/>
+                <filter string="Failed" name="failed" domain="[('status','=', 'fail')]"/>
+
+                <filter string="Orders" name="orders" domain="[('queue_type','=', 'order')]"/>
+                <filter string="Products" name="products" domain="[('queue_type','=', 'product')]"/>
+                <filter string="Customers" name="customers" domain="[('queue_type','=', 'customer')]"/>
+                <filter string="Locations" name="locations" domain="[('queue_type','=', 'location')]"/>
+                <filter string="Stocks" name="stocks" domain="[('queue_type','=', 'stock')]"/>
+
+                <separator/>
+            </search>
+        </field>
+    </record>
+
+    <record id="shopify_queue_order_action" model="ir.actions.act_window">
+        <field name="name">Orders Queue</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">shopify.queue</field>
+        <field name="domain">[('queue_type', '=', 'order')]</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="shopify_queue_product_action" model="ir.actions.act_window">
+        <field name="name">Products Queue</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">shopify.queue</field>
+        <field name="domain">[('queue_type', '=', 'product')]</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="shopify_queue_customer_action" model="ir.actions.act_window">
+        <field name="name">Customers Queue</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">shopify.queue</field>
+        <field name="domain">[('queue_type', '=', 'customer')]</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="shopify_queue_location_action" model="ir.actions.act_window">
+        <field name="name">Locations Queue</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">shopify.queue</field>
+        <field name="domain">[('queue_type', '=', 'location')]</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="shopify_queue_stock_action" model="ir.actions.act_window">
+        <field name="name">Stocks Queue</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">shopify.queue</field>
+        <field name="domain">[('queue_type', '=', 'stock')]</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

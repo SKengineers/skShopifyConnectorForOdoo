@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <record model="ir.ui.view" id="update_product_wizard_form_view">
+            <field name="name">update.product.wizard.form.view</field>
+            <field name="model">update.product.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="company_id" invisible="1"/>
+                                <field name="is_sync_options" invisible="1"/>
+                                <field name="instance_id"
+                                    options="{'no_create': True, 'no_quick_create': True}"/>
+                            </group>
+                            <group>
+                                <field name="operation_type"/>
+                                <field name="location_id"
+                                    invisible="operation_type not in ['import_stock', 'export_stock']"
+                                    options="{'no_create': True, 'no_quick_create': True}"/>
+                            </group>
+                        </group>
+                        <footer>
+                            <button name="proceed_to_update" type="object"
+                                    string="Proceed to Update" class="btn-primary"/>
+                            <button name="cancel" special="cancel"
+                                    string="Discard" class="btn-secondary"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+    <record model="ir.actions.act_window" id="action_update_product_wizard">
+        <field name="name">Update Product</field>
+        <field name="res_model">update.product.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

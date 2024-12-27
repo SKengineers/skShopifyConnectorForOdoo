@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="maintenance_team_kanban" model="ir.ui.view">
+        <field name="name">shopify.instance.kanban</field>
+        <field name="model">shopify.instance</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_dashboard o_maintenance_team_kanban" create="0" banner_route="/onboarding/shopify_onboarding">
+                <field name="name"/>
+                <field name="create_uid"/>
+                <templates>
+                    <t t-name="kanban-tooltip">
+                        <ul class="oe_kanban_tooltip">
+                            <li><b>Created By:</b> <t t-esc="record.create_uid.value"/></li>
+                        </ul>
+                    </t>
+                    <t t-name="kanban-menu">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-6 o_kanban_card_manage_section o_kanban_manage_view">
+                                    <h5 role="menuitem" class="o_kanban_card_manage_title">
+                                        <span>Import</span>
+                                    </h5>
+                                    <div role="menuitem">
+                                        <a name="%(action_operation_shopify_wizard)d" type="action" context="{'default_operation_type': 'import_product'}">
+                                            Product
+                                        </a>
+                                    </div>
+                                    <div role="menuitem">
+                                        <a name="%(action_operation_shopify_wizard)d" type="action" context="{'default_operation_type': 'import_customer'}">
+                                            Customer
+                                        </a>
+                                    </div>
+                                    <div role="menuitem">
+                                        <a name="%(action_operation_shopify_wizard)d" type="action" context="{'default_operation_type': 'import_order'}">
+                                            Order
+                                        </a>
+                                    </div>
+                                    <div role="menuitem">
+                                        <a name="%(action_operation_shopify_wizard)d" type="action" context="{'default_operation_type': 'import_location'}">
+                                            Location
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                    <t t-name="kanban-box">
+                        <div>
+                            <div class="o_kanban_card_content">
+                                <div class="o_kanban_card_header d-flex gap-1 align-items-baseline">
+                                    <div class="o_kanban_card_header_title mb16">
+                                        <div class="o_primary">
+                                            <field name="name"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            <div>
+                            <div>
+                                <group class="dashboard_graph_data">
+                                    <field name="dashboard_graph_data" widget="shopify_dashboard_graph"
+                                        graph_type="bar" />
+                                </group>
+                            </div>
+                            </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="action_shopify_instance_kanban" model="ir.actions.act_window">
+        <field name="name">Dashboard</field>
+        <field name="res_model">shopify.instance</field>
+        <field name="view_mode">kanban</field>
+        <field name="help" type="html">
+            <div>
+                <br/>
+                <br/>
+                <br/>
+                <p>
+                    <b>There is no any Shopify Instance configured yet.</b>
+                </p>
+                <p>
+                    To add your first Instance, go to menu
+                    <i>Shopify >> Configuration >> Instances</i>
+                    and create new Instance from there.
+                    At there you can define one or
+                    more Shopify Instances and
+                    configure extended options per
+                    Instance.
+                </p>
+            </div>
+        </field>
+    </record>
+</odoo>
